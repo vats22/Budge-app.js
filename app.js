@@ -5,15 +5,38 @@ var budgetController = (function() {
 
 // UI CONTROLLER
 var UIController = (function() {
-    // some code
+    
+    var domString = {
+        inputType: '.add__type',
+        inputDescription: '.add__description',
+        inputValue: '.add__value',
+        inputBtn: '.add__btn'
+    }
+    return{
+        getInput: function() {
+            return {
+                type: document.querySelector(domString.inputType).value,
+                description: document.querySelector(domString.inputDescription).value,
+                value: document.querySelector(domString.inputValue).value
+            };
+        },
+
+        getDomstring: function() {
+            return domString;
+        }
+    };
+    
 })();
 
 // GLOBEL APP CONTROLLER
 var Controller = (function(budgectrl,UICtlrl) {
 
+    var Dom = UICtlrl.getDomstring();
+
     var ctlrAddItem = function() {
         // 1. get the filed input data
-
+        var input = UICtlrl.getInput();
+        console.log(input);
        // 2. add the item to  the budget controller
 
        // 3. add item to the UI
@@ -22,9 +45,9 @@ var Controller = (function(budgectrl,UICtlrl) {
 
        // 5. Display the budget on the UI
 
-       console.log('yes u can  fuck')
+      
     }
-    document.querySelector('.add__btn').addEventListener('click', ctlrAddItem);
+    document.querySelector(Dom.inputBtn).addEventListener('click', ctlrAddItem);
 
     document.addEventListener('keypress', function(event) {
         if (event.keyCode === 13 || event.which === 13) {
