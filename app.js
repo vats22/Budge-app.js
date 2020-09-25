@@ -31,7 +31,17 @@ var UIController = (function() {
 // GLOBEL APP CONTROLLER
 var Controller = (function(budgectrl,UICtlrl) {
 
-    var Dom = UICtlrl.getDomstring();
+    var setupEventListner = function() {
+            var Dom = UICtlrl.getDomstring();
+
+            document.querySelector(Dom.inputBtn).addEventListener('click', ctlrAddItem);
+            document.addEventListener('keypress', function(event) {
+            if (event.keyCode === 13 || event.which === 13) {
+                ctlrAddItem();
+            }
+        });
+    };
+    
 
     var ctlrAddItem = function() {
         // 1. get the filed input data
@@ -44,15 +54,16 @@ var Controller = (function(budgectrl,UICtlrl) {
        // 4. Calculate the budget
 
        // 5. Display the budget on the UI
-
-      
-    }
-    document.querySelector(Dom.inputBtn).addEventListener('click', ctlrAddItem);
-
-    document.addEventListener('keypress', function(event) {
-        if (event.keyCode === 13 || event.which === 13) {
-        ctlrAddItem();
+     
+    };
+     
+    return{
+        Init: function() {
+            console.log('app start working');
+            setupEventListner();
         }
-    });
-
+    };
+    
 })(budgetController,UIController);
+
+Controller.Init(); 
