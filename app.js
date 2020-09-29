@@ -77,7 +77,12 @@ var budgetController = (function() {
                2. Exp = 100 and Inc = 300 spent = 33.333 calcu is 100/300 = 0.333 * 100 = 33 for that we use 
                method "Meth.round"
             */
-           data.percentage = Math.round((data.totals.exp / data.totals.inc) * 100);   
+           if(data.totals.inc > 0) {
+            data.percentage = Math.round((data.totals.exp / data.totals.inc) * 100); 
+           }else {
+               data.percentage = -1;
+           }
+             
         },
 
         getBudget:function() {
