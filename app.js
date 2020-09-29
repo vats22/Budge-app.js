@@ -13,6 +13,15 @@ var budgetController = (function() {
         this.value = value;
     };
 
+    var calculateTotal = function(type) {
+        var sum = 0;
+
+        data.allItems[type].forEach(function(cur) {
+            sum += cur.value;
+        });
+        data.totals[type] = sum;
+    };
+
     var data = {
         allItems: {
             exp:[],
@@ -21,7 +30,9 @@ var budgetController = (function() {
         totals: {
             exp: 0,
             inc: 0
-        }
+        },
+        budget: 0,
+        percentage: 0
     };
 
     return {
@@ -54,6 +65,30 @@ var budgetController = (function() {
             // Return the new element
             return newItem;
         },
+
+        calculateBudget: function() {
+            // calculate total incom and expenses.
+            calculateTotal('exp');
+            calculateTotal('inc');
+            // calculate total budget: incom - expenses.
+            data.budget = data.totals.inc - data.totals.exp;
+            // calculate total percentage of incom that we spent.
+            /* 1. Exp = 100 and Inc =  200  spent = 50%  calcu is 100/200 = 0.5 * 100 = 50
+               2. Exp = 100 and Inc = 300 spent = 33.333 calcu is 100/300 = 0.333 * 100 = 33 for that we use 
+               method "Meth.round"
+            */
+           data.percentage = Math.round((data.totals.exp / data.totals.inc) * 100);   
+        },
+
+        getBudget:function() {
+            return{
+                budget: data.budget,
+                totalInc: data.totals.inc,
+                totalExp: data.totals.exp,
+                percentage: data.percentage
+            };
+        },
+
         testing: function() {
             console.log(data);
         }
@@ -110,6 +145,11 @@ var UIController = (function() {
 
             fields = document.querySelectorAll(DOMstrings.inputDescription + ',' + DOMstrings.inputValue) ;
             console.log(fields);
+
+            /* doing this bcs "querySelectorAll" gives us a result in a list form and we dont have a good methods
+            for a list like we have for array so we have to  convert in to the array we can't do  directly so
+            we have to use a array method slice in a prototype and useing the call method to call the slice method 
+            */ 
             fieldsArr = Array.prototype.slice.call(fields);
             console.log(fieldsArr);
 
@@ -143,10 +183,11 @@ var Controller = (function(budgectrl,UICtlrl) {
     
     var updateBudget = function() {
         //1. Calculate the budget
-
+        budgectrl.calculateBudget();
         //2. Return the Budget.
-
-        //3. Display the budget on the UI
+        var budget = budgectrl.getBudget();
+        //3. Display the budget on the UI.
+        console.log(budget);
     };
 
     var ctlrAddItem = function() {
@@ -162,7 +203,7 @@ var Controller = (function(budgectrl,UICtlrl) {
             // 4. Clear all Fields
             UICtlrl.clearField(); 
             // 5. Calculate and Update Budget.
-            UICtlrl.updateBudget();   
+            updateBudget();   
         }
             
      
