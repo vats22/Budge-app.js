@@ -114,7 +114,8 @@ var UIController = (function() {
         budgetLabel: '.budget__value',
         incomLabel: '.budget__income--value',
         expensesLabel: '.budget__expenses--value',
-        percentageLabel: '.budget__expenses--percentage'
+        percentageLabel: '.budget__expenses--percentage',
+        Container: '.container'
     }
     return{
         getInput: function() {
@@ -200,6 +201,8 @@ var Controller = (function(budgectrl,UICtlrl) {
             if (event.keyCode === 13 || event.which === 13) {
                 ctlrAddItem();
             }
+
+            document.querySelector(Dom.Container).addEventListener('click', ctlrDeletItem)
         });
     };  
     
@@ -231,14 +234,29 @@ var Controller = (function(budgectrl,UICtlrl) {
             
      
     };
+
+    var ctlrDeletItem = function(event) {
+        var itemID, splitID, type;
+        itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
+        if (itemID){
+            splitID = itemID.split('-');
+            type = splitID[0];
+            ID = splitID[1];
+        }
+        //1.Delet the item from the data sturectur.
+
+        //2.Delet the item from the UI.
+
+        //3.Update and show the new budget.
+    };
      
     return{
         Init: function() {
             console.log('app start working');
             UICtlrl.displayBudget({
-                budget: 0,
-                totalInc: 0,
-                totalExp:0,
+                budget: +0,
+                totalInc: +0,
+                totalExp: -0,
                 percentage: -1
             });
             setupEventListner();
