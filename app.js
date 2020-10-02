@@ -254,9 +254,9 @@ var Controller = (function(budgectrl,UICtlrl) {
         Init: function() {
             console.log('app start working');
             UICtlrl.displayBudget({
-                budget: +0,
-                totalInc: +0,
-                totalExp: -0,
+                budget: 0,
+                totalInc: 0,
+                totalExp: 0,
                 percentage: -1
             });
             setupEventListner();
