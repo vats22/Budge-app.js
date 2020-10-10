@@ -24,8 +24,8 @@ var budgetController = (function() {
 
     var data = {
         allItems: {
-            exp:[],
-            inc:[]
+            inc:[],
+            exp:[]
         },
         totals: {
             exp: 0,
@@ -169,6 +169,12 @@ var UIController = (function() {
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
         },
 
+        DeletListitem: function(selectorID) {
+            var el
+            el = document.getElementById(selectorID);
+            el.parentNode.removeChild(el);
+        },
+
         // clear fielfd.
         clearField: function() {
             var fields, fieldsArr;
@@ -265,9 +271,9 @@ var Controller = (function(budgectrl,UICtlrl) {
         //1.Delet the item from the data sturectur.
         budgetController.DeletItem(type,ID)
         //2.Delet the item from the UI.
-
+        UICtlrl.DeletListitem(itemID);
         //3.Update and show the new budget.
-    };
+    };  updateBudget();
      
     return{
         Init: function() {
