@@ -31,10 +31,6 @@ body {
 *** TOP PART
 **********************************************/
 
-.kk {
-    font-weight: 400;
-    font-weight: 400;
-}
 .top {
     height: 40vh;
     background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url(back.png);
@@ -42,7 +38,6 @@ body {
     background-position: center;
     position: relative;
 }
-
 
 .budget {
     position: absolute;
