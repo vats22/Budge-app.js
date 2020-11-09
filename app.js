@@ -1,4 +1,5 @@
-// BUDGE CONTROLLER
+                            // BUDGE CONTROLLER //
+
 var budgetController = (function() {
    
     var Expense = function(id,description,value) {
@@ -157,8 +158,9 @@ var budgetController = (function() {
         
     };
 })();
+     
+                             // UI CONTROLLER //
 
-// UI CONTROLLER
 var UIController = (function() {
     
     var DOMstrings = {
@@ -200,6 +202,11 @@ var UIController = (function() {
     }
     /*formateNumber(24564.56, 'inc');
     formateNumber(5089, 'exp');*/
+    var nodeListForEach = function(list, callback) {
+        for (var i = 0; i < list.length; i++) {
+            callback(list[i], i);
+        }
+    };
     return{
         getInput: function() {
             return {
@@ -278,11 +285,7 @@ var UIController = (function() {
         displayPercentages: function(percentages) {
             
             var fields = document.querySelectorAll(DOMstrings.expensesPercLabel);
-            var nodeListForEach = function(list, callback) {
-                for (var i = 0; i < list.length; i++) {
-                    callback(list[i], i);
-                }
-            };
+            
             nodeListForEach(fields, function(current, index) {
                 
                 if (percentages[index] > 0) {
@@ -311,6 +314,23 @@ var UIController = (function() {
             console.log(year);
             document.querySelector(DOMstrings.Datelabel).textContent =date + ' ' + months[month] + ' ' + year;
         },
+
+        changedType: function() {
+            
+            var fields = document.querySelectorAll(
+                DOMstrings.inputType + ',' +
+                DOMstrings.inputDescription + ',' +
+                DOMstrings.inputValue
+            );
+            console.log(fields);
+            nodeListForEach(fields, function(cur) {
+               cur.classList.toggle('red-focus'); 
+            });
+            
+            document.querySelector(DOMstrings.inputBtn).classList.toggle('red');
+        },
+
+
         getDOMstrings: function(){
             return DOMstrings;
         }
@@ -318,7 +338,7 @@ var UIController = (function() {
     
 })();
 
-// GLOBEL APP CONTROLLER
+                                // GLOBEL APP CONTROLLER //
 var Controller = (function(budgectrl,UICtlrl) {
 
     var setupEventListner = function() {
@@ -330,7 +350,9 @@ var Controller = (function(budgectrl,UICtlrl) {
                 ctlrAddItem();
             }
 
-            document.querySelector(Dom.Container).addEventListener('click', ctlrDeletItem)
+            document.querySelector(Dom.Container).addEventListener('click', ctlrDeletItem);
+
+            document.querySelector(Dom.inputType).addEventListener('change', UICtlrl.changedType);
         });
     };  
     
