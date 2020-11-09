@@ -173,7 +173,8 @@ var UIController = (function() {
         expensesLabel: '.budget__expenses--value',
         percentageLabel: '.budget__expenses--percentage',
         Container: '.container',
-        expensesPercLabel: '.item__percentage'
+        expensesPercLabel: '.item__percentage',
+        Datelabel: '.budget__title--month'
     }
 
     var formateNumber = function(num, type) {
@@ -197,8 +198,8 @@ var UIController = (function() {
 
         return (type === 'exp' ? '-' : '+')+ ' ' + int + '.' + dec;
     }
-    formateNumber(24564.56, 'inc');
-    formateNumber(5089, 'exp');
+    /*formateNumber(24564.56, 'inc');
+    formateNumber(5089, 'exp');*/
     return{
         getInput: function() {
             return {
@@ -263,8 +264,8 @@ var UIController = (function() {
             var type;
             obj.budget > 0 ? type = 'inc' : type = 'exp';
             document.querySelector(DOMstrings.budgetLabel).textContent = formateNumber(obj.budget,type);
-            document.querySelector(DOMstrings.incomLabel).textContent = formateNumber(obj.totalInc);
-            document.querySelector(DOMstrings.expensesLabel).textContent = formateNumber(obj.totalExp);
+            document.querySelector(DOMstrings.incomLabel).textContent = formateNumber(obj.totalInc,'inc');
+            document.querySelector(DOMstrings.expensesLabel).textContent = formateNumber(obj.totalExp,'exp');
            
             
             if(obj.percentage > 0) {
@@ -292,8 +293,24 @@ var UIController = (function() {
             });
             
         },
-       
+        
+        DisplayMonth: function() {
+            var vats, months, month, year, date;
 
+            vats = new Date();
+            console.log(vats)
+
+            date = vats.getDate();
+            console.log(date);
+
+            months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            month = vats.getMonth();
+            console.log(month);
+
+            year = vats.getFullYear();
+            console.log(year);
+            document.querySelector(DOMstrings.Datelabel).textContent =date + ' ' + months[month] + ' ' + year;
+        },
         getDOMstrings: function(){
             return DOMstrings;
         }
@@ -380,6 +397,7 @@ var Controller = (function(budgectrl,UICtlrl) {
     return{
         Init: function() {
             console.log('app start working');
+            UICtlrl.DisplayMonth();
             UICtlrl.displayBudget({
                 budget: 0,
                 totalInc: 0,
